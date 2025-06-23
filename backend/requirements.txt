@@ -1,0 +1,6 @@
+pipecat-ai[assemblyai,openai,cartesia,silero,daily,webrtc]
+python-dotenv 
+fastapi 
+uvicorn 
+pipecat-ai-small-webrtc-prebuilt
+pipecat-ai
