@@ -188,10 +188,17 @@ const App: React.FC = () => {
           disabled={status === 'connecting'}
         >
           {btnText}
+          <span style={{marginLeft: 10, display: 'inline-flex', verticalAlign: 'middle'}}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="7" y="3" width="6" height="10" rx="3" fill="#222"/>
+              <rect x="9" y="15" width="2" height="3" rx="1" fill="#222"/>
+              <path d="M5 10V11C5 14 15 14 15 11V10" stroke="#222" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </span>
         </button>
         
       </div>
-      <div className="chat-desc">你好！这是一个AI语音助手，支持流式语音识别与对话。</div>
+      {/* <div className="chat-desc">你好！这是一个AI语音助手，支持流式语音识别与对话。</div> */}
       <div id="chat-container" ref={chatContainerRef} style={{overflowY: 'auto', maxHeight: '60vh'}}>
         {chat.map((bubble, idx) => (
           <div className="chat-bubble" key={idx}>
