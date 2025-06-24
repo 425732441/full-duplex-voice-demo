@@ -7,7 +7,7 @@ services:
     ports:
       - "7860:7860"
     networks:
-      - app-network
+      - arkmind
     restart: always
 
   full-duplex-demo-frontend:
@@ -18,9 +18,9 @@ services:
     depends_on:
       - full-duplex-demo-backend
     networks:
-      - app-network
+      - arkmind
     restart: always
 
 networks:
-  app-network:
+  arkmind:
     driver: bridge 
