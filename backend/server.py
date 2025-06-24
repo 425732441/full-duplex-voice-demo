@@ -50,11 +50,16 @@ async def websocket_endpoint(websocket: WebSocket):
 
 @app.post("/connect")
 async def bot_connect(request: Request) -> Dict[Any, Any]:
+    host = request.headers["host"]
+    scheme = request.headers.get("x-forwarded-proto", "https")
+    ws_scheme = "ws" if scheme == "http" else "wss"
+
     server_mode = os.getenv("WEBSOCKET_SERVER", "fast_api")
     if server_mode == "websocket_server":
-        ws_url = "ws://localhost:8765"
+        hostname = host.split(":")[0]
+        ws_url = f"ws://{hostname}:8765"
     else:
-        ws_url = "ws://localhost:7860/ws"
+        ws_url = f"{ws_scheme}://{host}/ws"
     return {"ws_url": ws_url}
 
 
