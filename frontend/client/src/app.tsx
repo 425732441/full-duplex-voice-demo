@@ -70,7 +70,7 @@ const App: React.FC = () => {
       const RTVIConfig: RTVIClientOptions = {
         transport,
         params: {
-          baseUrl: '',
+          baseUrl: '/',
           endpoints: { connect: '/connect' },
         },
         enableMic: true,
