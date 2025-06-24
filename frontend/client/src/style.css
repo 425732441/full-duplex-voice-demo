@@ -137,7 +137,7 @@ button:disabled {
 }
 
 .chat-btn.disconnected {
-    background-color: #05b84a !important;
+    background-color: #38ba6a !important;
     color: #222;
 }
 
@@ -179,7 +179,8 @@ button:disabled {
 }
 
 #chat-container {
-    max-width: 900px;
+    max-width: 70vw;
+    min-width: 70vw;
     margin: 0 auto 40px auto;
     padding: 36px 0;
     background: #fff;

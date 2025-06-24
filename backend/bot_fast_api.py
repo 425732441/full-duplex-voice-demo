@@ -31,12 +31,22 @@ from pipecat.frames.frames import Frame, TextFrame
 from pipecat.pipeline.task import PipelineParams, PipelineTask
 from pipecat.processors.aggregators.openai_llm_context import OpenAILLMContext
 from pipecat.services.cartesia.tts import CartesiaTTSService
+from pipecat.services.elevenlabs.tts import ElevenLabsTTSService
+from pipecat.services.minimax.tts import MiniMaxHttpTTSService
 from pipecat.services.assemblyai.stt import AssemblyAISTTService, AssemblyAIConnectionParams
+from pipecat.services.groq.stt import GroqSTTService
+from pipecat.services.gladia.stt import GladiaSTTService
 from pipecat.services.openai.llm import OpenAILLMService
 from pipecat.services.openrouter.llm import OpenRouterLLMService
 from pipecat.transports.base_transport import BaseTransport, TransportParams
 from pipecat.transports.network.fastapi_websocket import FastAPIWebsocketParams
 from pipecat.transports.services.daily import DailyParams
+from pipecat.transcriptions.language import Language
+from pipecat.services.gladia.config import (
+    GladiaInputParams,
+    LanguageConfig,
+    RealtimeProcessingConfig
+)
 
 load_dotenv(override=True)
 
@@ -68,20 +78,50 @@ async def run_bot(websocket_client):
     )
 
     # Configure AssemblyAI STT with advanced turn detection
-    stt = AssemblyAISTTService(
-        api_key=os.getenv("ASSEMBLYAI_API_KEY"),
-        vad_force_turn_endpoint=False,
-        connection_params=AssemblyAIConnectionParams(
-            end_of_turn_confidence_threshold=0.7,
-            min_end_of_turn_silence_when_confident=160,
-            max_turn_silence=2400,
-        )
-    )
+    # stt = AssemblyAISTTService(
+    #     api_key=os.getenv("ASSEMBLYAI_API_KEY"),
+    #     vad_force_turn_endpoint=False,
+    #     connection_params=AssemblyAIConnectionParams(
+    #         end_of_turn_confidence_threshold=0.7,
+    #         min_end_of_turn_silence_when_confident=160,
+    #         max_turn_silence=2400,
+    #     )
+    # )
+    # stt = GroqSTTService(
+    #     model="whisper-large-v3-turbo",
+    #     api_key=os.getenv("GROQ_API_KEY"),
+    #     language=Language.ZH,
+    #     # prompt="Transcribe the following conversation",
+    #     temperature=0.0
+    # )
+    stt = GladiaSTTService(api_key=os.getenv("GLADIA_API_KEY"),
+        model="solaria-1",
+        params=GladiaInputParams(
+            language_config=LanguageConfig(
+                languages=[Language.EN, Language.ZH, Language.JA],
+                code_switching=True
+            ),
+        ))
 
-    tts = CartesiaTTSService(
-        api_key=os.getenv("CARTESIA_API_KEY"),
-        voice_id="71a7ad14-091c-4e8e-a314-022ece01c121",  # British Reading Lady
-    )
+    # tts = CartesiaTTSService(
+    #     api_key=os.getenv("CARTESIA_API_KEY"),
+    #     voice_id="71a7ad14-091c-4e8e-a314-022ece01c121",  # British Reading Lady
+    # )
+    tts = ElevenLabsTTSService(api_key=os.getenv("ELEVENLABS_API_KEY"),
+                               voice_id="bhJUNIXWQQ94l8eI2VUf")
+
+    # session = aiohttp.ClientSession()
+    # tts = MiniMaxHttpTTSService(api_key=os.getenv("MINIMAX_API_KEY"),group_id=os.getenv("MINIMAX_GROUP_ID"),
+                                # model="speech-02-turbo",
+                                # voice_id="Patient_Man",
+                                # params=MiniMaxHttpTTSService.InputParams(
+                                #     language=Language.ZH,
+                                #     speed=1.1,         # Slightly faster speech
+                                #     volume=1.2,        # Slightly louder
+                                #     pitch=0,           # Default pitch
+                                #     emotion="neutral"  # Neutral emotional tone
+                                # ),
+                                # aiohttp_session=session)
 
     llm = OpenRouterLLMService(api_key=os.getenv("OPENROUTER_API_KEY"),model="openai/gpt-4o-mini")
 
@@ -89,7 +129,7 @@ async def run_bot(websocket_client):
         [
             {
                 "role": "user",
-                "content": "Start by greeting the user warmly and introducing yourself.",
+                "content": "问候用户并介绍自己.",
             }
         ],
     )

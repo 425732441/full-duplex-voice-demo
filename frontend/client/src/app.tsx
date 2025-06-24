@@ -6,6 +6,7 @@ import {
 } from '@pipecat-ai/client-js';
 import { WebSocketTransport } from '@pipecat-ai/websocket-transport';
 import { createRoot } from 'react-dom/client';
+import { FiMic } from 'react-icons/fi';
 
 interface ChatBubble {
   sender: 'user' | 'bot';
@@ -173,9 +174,9 @@ const App: React.FC = () => {
 
   // 按钮文本
   const btnText = {
-    disconnected: '连接',
-    connecting: '连接中...',
-    connected: '断开连接',
+    disconnected: 'Talk to AI Agent',
+    connecting: 'Connecting...',
+    connected: 'Stop',
   }[status];
 
   return (
@@ -189,26 +190,27 @@ const App: React.FC = () => {
         >
           {btnText}
           <span style={{marginLeft: 10, display: 'inline-flex', verticalAlign: 'middle'}}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="7" y="3" width="6" height="10" rx="3" fill="#222"/>
-              <rect x="9" y="15" width="2" height="3" rx="1" fill="#222"/>
-              <path d="M5 10V11C5 14 15 14 15 11V10" stroke="#222" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
+            <FiMic size={20} color="#222" />
           </span>
         </button>
-        
       </div>
       {/* <div className="chat-desc">你好！这是一个AI语音助手，支持流式语音识别与对话。</div> */}
       <div id="chat-container" ref={chatContainerRef} style={{overflowY: 'auto', maxHeight: '60vh'}}>
-        {chat.map((bubble, idx) => (
-          <div className="chat-bubble" key={idx}>
-            <div className={`bubble-label ${bubble.sender === 'user' ? 'user' : 'ai'}`}>
-              {bubble.sender === 'user' ? 'You' : 'AIGENT'}
-            </div>
-            <div className={bubble.sender === 'user' ? 'user-msg' : 'ai-msg'}>{bubble.text}</div>
-            <div className="bubble-time">{bubble.time}</div>
+        {chat.length === 0 ? (
+          <div style={{textAlign: 'center', color: '#bbb', fontSize: '1.1rem', marginTop: '120px'}}>
+            点击上方按钮开始对话
           </div>
-        ))}
+        ) : (
+          chat.map((bubble, idx) => (
+            <div className="chat-bubble" key={idx}>
+              <div className={`bubble-label ${bubble.sender === 'user' ? 'user' : 'ai'}`}>
+                {bubble.sender === 'user' ? 'You' : 'AIGENT'}
+              </div>
+              <div className={bubble.sender === 'user' ? 'user-msg' : 'ai-msg'}>{bubble.text}</div>
+              <div className="bubble-time">{bubble.time}</div>
+            </div>
+          ))
+        )}
       </div>
       <div id="debug-log" style={{ display: 'none' }}>
         {debugLog.map((entry, idx) => <div key={idx}>{entry}</div>)}

@@ -1,4 +1,4 @@
-pipecat-ai[assemblyai,openai,cartesia,silero,daily,webrtc]
+pipecat-ai[assemblyai,openai,cartesia,silero,daily,webrtc,groq,gladia]
 python-dotenv 
 fastapi 
 uvicorn 
