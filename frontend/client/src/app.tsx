@@ -70,7 +70,7 @@ const App: React.FC = () => {
       const RTVIConfig: RTVIClientOptions = {
         transport,
         params: {
-          baseUrl: 'http://localhost:7860',
+          baseUrl: '',
           endpoints: { connect: '/connect' },
         },
         enableMic: true,
@@ -82,7 +82,7 @@ const App: React.FC = () => {
             log('Client disconnected');
           },
           onBotReady: (data) => {
-            // 不显示“AI已准备好”
+            // 不显示"AI已准备好"
             if (data && typeof data === 'object' && 'text' in data && (data as any).text) {
               appendToBubble('bot', (data as any).text);
             }
