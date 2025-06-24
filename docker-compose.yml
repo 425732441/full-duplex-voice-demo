@@ -11,7 +11,7 @@ services:
     restart: always
 
   full-duplex-demo-frontend:
-    image: harbor.lightark.cc/iagent/full-duplex-demo-frontend:0ae3f3f-20250624-1644
+    image: harbor.lightark.cc/iagent/full-duplex-demo-frontend:7938241-20250624-1737
     container_name: full-duplex-demo-frontend
     ports:
       - "8080:80"
