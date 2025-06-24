@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  full-duplex-demo-backend:
+    image: harbor.lightark.cc/iagent/full-duplex-demo-backend:0ae3f3f-20250624-1646
+    container_name: full-duplex-demo-backend
+    ports:
+      - "7860:7860"
+    networks:
+      - app-network
+    restart: always
+
+  full-duplex-demo-frontend:
+    image: harbor.lightark.cc/iagent/full-duplex-demo-frontend:0ae3f3f-20250624-1644
+    container_name: full-duplex-demo-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - full-duplex-demo-backend
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge 
