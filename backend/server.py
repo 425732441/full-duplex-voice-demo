@@ -53,6 +53,7 @@ async def bot_connect(request: Request) -> Dict[Any, Any]:
     host = request.headers["host"]
     
     scheme = request.url.scheme
+    print(f"request url:{request.url}, scheme:{scheme}")
     ws_scheme = "ws" if scheme == "http" else "wss"
 
     server_mode = os.getenv("WEBSOCKET_SERVER", "fast_api")
