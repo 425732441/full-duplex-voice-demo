@@ -21,4 +21,4 @@ EXPOSE 7860
 ENV NAME World
 
 # Run server.py when the container launches
-CMD ["python", "server.py"] 
+CMD ["uvicorn", "server:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "7860"] 
