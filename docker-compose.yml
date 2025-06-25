@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   full-duplex-demo-backend:
-    image: harbor.lightark.cc/iagent/full-duplex-demo-backend:2ac896a-20250625-1519
+    image: harbor.lightark.cc/iagent/full-duplex-demo-backend:2d01463-20250625-1523
     container_name: full-duplex-demo-backend
     ports:
       - "7860:7860"
