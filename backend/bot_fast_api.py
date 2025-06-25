@@ -54,17 +54,6 @@ logger.remove(0)
 logger.add(sys.stderr, level="DEBUG")
 
 
-SYSTEM_INSTRUCTION = f"""
-"You are Gemini Chatbot, a friendly, helpful robot.
-
-Your goal is to demonstrate your capabilities in a succinct way.
-
-Your output will be converted to audio so don't include special characters in your answers.
-
-Respond to what the user said in a creative and helpful way. Keep your responses brief. One or two sentences at most.
-"""
-
-
 async def run_bot(websocket_client):
     ws_transport = FastAPIWebsocketTransport(
         websocket=websocket_client,
@@ -129,7 +118,7 @@ async def run_bot(websocket_client):
         [
             {
                 "role": "user",
-                "content": "问候用户并介绍自己.",
+                "content": "Start by greeting the user warmly and introducing yourself.",
             }
         ],
     )
