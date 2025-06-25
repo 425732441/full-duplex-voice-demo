@@ -51,10 +51,14 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.post("/connect")
 async def bot_connect(request: Request) -> Dict[Any, Any]:
     host = request.headers["host"]
-    
-    scheme = request.url.scheme
-    print(f"request url:{request.url}, scheme:{scheme}")
-    ws_scheme = "ws" if scheme == "http" else "wss"
+    # 判断本地地址
+    local_hosts = ["localhost", "127.0.0.1", "0.0.0.0"]
+    hostname = host.split(":")[0]
+    if hostname in local_hosts:
+        ws_scheme = "ws"
+    else:
+        ws_scheme = "wss"
+    print(f"request url:{request.url}, host:{host}, ws_scheme:{ws_scheme}")
 
     server_mode = os.getenv("WEBSOCKET_SERVER", "fast_api")
     if server_mode == "websocket_server":
